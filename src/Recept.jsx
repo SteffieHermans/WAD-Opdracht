@@ -1,43 +1,56 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class Recept extends Component {
-    
-    render() {
-      return (
-        <article class="recipe">
-            <h2>{this.props.title}</h2>
+const Recept = ({id, title, description, servings, ingredients, steps, notes, source}) => {
+    return (
+        <article className="recipe recipe-container-item">
+            <h2>{title}</h2>
             <section>
                 <h3>Beschrijving</h3>
-                <p>{this.props.description}</p>
+                <p>{description}</p>
+            </section>
+            <section>
+                <h3>Aantal Personen</h3>
+                <p>{servings}</p>
             </section>
             <section>
                 <h3>Ingredienten</h3>
                 <ul>
-                    {this.props.ingredients.map(ingredient => {
-                        return <li class="ingredient">{ingredient}</li>;
+                    {ingredients.map((ingredient, index) => {
+                        return <li className="ingredient" key={index}>{ingredient}</li>;
                     })}
                 </ul>
             </section>
             <section>
                 <h3>Methode</h3>
                 <ol>
-                    {this.props.steps.map(step => {
-                        return <li class="step">{step}</li>;
+                    {steps.map((step, index) => {
+                        return <li className="step" key={index}>{step}</li>;
                     })}
                 </ol>
             </section>
             <section>
                 <h3>Opmerkingen</h3>
-                <p>{this.props.notes}</p>
+                <p>{notes}</p>
             </section>
             <section>
                 <h3>Bron</h3>
-                <p>{this.props.source}</p>
+                <p>{source}</p>
             </section>
         </article>
         
       );
-    }
+}
+
+Recept.propTypes = {
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    servings: PropTypes.number.isRequired,
+    ingredients: PropTypes.array.isRequired,
+    steps: PropTypes.array.isRequired,
+    notes: PropTypes.string.isRequired,
+    source: PropTypes.string.isRequired
 }
 
 export default Recept;
