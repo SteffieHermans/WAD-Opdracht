@@ -8,3 +8,7 @@ Een React app waarmee je je favorieten recepten op kunt slaan in een 'Recepten B
 Ik heb eerst geprobeert om te werken met een submit button op een form, maar dat lukte nog niet zo snel, dus nu heb ik een form met allemaal elementjes met aparte onChange eventhandlers. De state wordt aangepast als de app actief is, maar als je deze afsluit en weer opnieuw opstart staat de oude data er weer, er wordt dus nog nergens iets definitief aangepast.
 
 Daarnaast heb ik proberen te werken met een array van recepten binnen de state, maar ik ben er nog niet achter hoe ik dan aan de hand van index of id een specifiek recept zou kunnen aanpassen, daarom het ik nu een state met de gegevens van 1 recept.
+
+## Week 3
+Basis CRUD gaat goed, bij het formulier om een recept toevoegen (AddRecipe) heb ik buttons om extra inputs toe te voegen voor ingredienten en stappen van het recept, dit lukt binnen het formulier zelf, maar de functie onChange lijkt bij deze extra toegevoegde elementen niet te werken.
+
