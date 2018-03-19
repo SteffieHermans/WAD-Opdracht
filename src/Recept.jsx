@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 const Recept = ({id, title, description, servings, ingredients, steps, notes, source, onDelete}) => {
+
     const handleClickDelete = id => {
         onDelete(id);
-    }
-
-    const handleClickEdit = id => {
-        const selector = '.' + id;
-        const recipeContainer = document.querySelector(selector);
-        const form = recipeContainer.querySelector('form');
-        form.classList.remove('hide');
     }
 
     return (
@@ -48,8 +43,11 @@ const Recept = ({id, title, description, servings, ingredients, steps, notes, so
                 <h3>Bron</h3>
                 <p>{source}</p>
             </section>
-            <button onClick={() => handleClickEdit(id)}>Edit</button>
-            <button onClick={() => handleClickDelete(id)}>Delete</button>
+            <section className="button-section">
+                <h3 className="hide">Buttons</h3>
+                <Link className="button-link" to={`/recipe/edit/${id}`}><button className="inline-button">Edit</button></Link>
+                <Link className="button-link" to='/'><button className="inline-button" onClick={() => handleClickDelete(id)}>Delete</button></Link>
+            </section>
         </article>
         
       );

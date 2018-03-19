@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
-const AddRecipe = ({onAdd}) => {
+const AddRecipe = ({toAdd, onAdd, addIngredient, addStep, history}) => {
+
+    const redirect = id => {
+        history.push(`/recipe/${id}`);
+    }
 
     const data = {
         'title': 'Geen Titel',
@@ -33,33 +38,16 @@ const AddRecipe = ({onAdd}) => {
 
     const handleClickSubmit = e => {
         e.preventDefault();
-        onAdd(data);
+        onAdd(data, redirect);
     }
     const handleClickAddIngredient = e => {
         e.preventDefault();
-        const ingredientList = document.querySelector('.ingredients');
-        const count = ingredientList.children.length;
-
-        const listItem = document.createElement('li');
-        listItem.innerHTML = '<input type="text" name="ingredient" id="ingredient' + (count-1) + '"/>';
-        listItem.querySelector('input').setAttribute('onChange', "e => handleChangeInput(e)");
-        ingredientList.appendChild(listItem);
+        addIngredient();
     }
 
     const handleClickAddStep = e => {
         e.preventDefault();
-        const stepList = document.querySelector('.method');
-        const count = stepList.children.length/2;
-
-        const term = document.createElement('dt');
-        term.textContent = 'Stap ' + (count+1);
-
-        const description = document.createElement('dd');
-        description.innerHTML = '<textarea name="step" id="step' + (count-1) + '"></textarea>';
-        description.querySelector('textarea').setAttribute('onChange', "e => handleChangeInput(e)");
-
-        stepList.appendChild(term);
-        stepList.appendChild(description);
+        addStep();
     }
 
     const renderForm = () => {
@@ -86,34 +74,43 @@ const AddRecipe = ({onAdd}) => {
                 </select>
                 <label htmlFor="ingredients">Ingredienten</label>
                 <ul id="ingredients" className="ingredients">
-                    <li><input type="text" name="ingredient" id="ingredient0" onChange={e => handleChangeInput(e)} required/></li>
+                    {toAdd.ingredients.map((ingredient, index) => {
+                        return <li key={index}><input type="text" name="ingredient" id={"ingredient" + index} onChange={e => handleChangeInput(e)} required/></li>;
+                    })}
                 </ul>
-                <button onClick={handleClickAddIngredient}>Extra Ingredient</button>
+                <button className="inline-button-extra" onClick={handleClickAddIngredient}>Extra Ingredient</button>
                 <label htmlFor="method">Methode</label>
                 <dl id="method" className="method">
-                    <dt>Stap 1</dt>
-                    <dd><textarea name="step" id="step0" onChange={e => handleChangeInput(e)} required></textarea></dd>
+                    {toAdd.steps.map((step, index)=>{
+                        return(
+                            <div key={"stap-wrapper" + index}>
+                                <dt>Stap {index + 1}</dt>
+                                <dd><textarea name="step" id={"step" + index} onChange={e => handleChangeInput(e)} required></textarea></dd>
+                            </div>
+                        );
+                    })}
                 </dl>
-                <button onClick={handleClickAddStep}>Extra Stap</button>
+                <button className="inline-button-extra" onClick={handleClickAddStep}>Extra Stap</button>
                 <label htmlFor="notes">Opmerkingen</label>
                 <textarea name="notes" id="notes" onChange={e => handleChangeInput(e)} required></textarea>
                 <label htmlFor="source">Bron</label>
                 <input type="text" name="source" id="source" onChange={e => handleChangeInput(e)} required/>
-                <input type="submit" onClick={handleClickSubmit}/>
+                <input className="inline-button" type="submit" onClick={handleClickSubmit}/>
             </form>
         );
     };
 
     return (
-        <section className="recipes">
-            <h2>Recept Toevoegen</h2>
-            {renderForm()}
-        </section>
+        renderForm()
     );
 };
 
 AddRecipe.propTypes = {
-    onAdd: PropTypes.func.isRequired
+    toAdd: PropTypes.object.isRequired,
+    onAdd: PropTypes.func.isRequired.apply,
+    addIngredient: PropTypes.func.isRequired.apply,
+    addStep: PropTypes.func.isRequired.apply,
+    history: PropTypes.object.isRequired
 }
 
-export default AddRecipe;
+export default withRouter(AddRecipe);

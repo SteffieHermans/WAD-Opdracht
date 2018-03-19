@@ -12,3 +12,6 @@ Daarnaast heb ik proberen te werken met een array van recepten binnen de state, 
 ## Week 3
 Basis CRUD gaat goed, bij het formulier om een recept toevoegen (AddRecipe) heb ik buttons om extra inputs toe te voegen voor ingredienten en stappen van het recept, dit lukt binnen het formulier zelf, maar de functie onChange lijkt bij deze extra toegevoegde elementen niet te werken.
 
+## Week 4
+Alles is goed gegaan denk ik, ik kan nu ook extra ingredienten en stappen toevoegen, het enige waar ik nog een keer voor moet gaan zitten in de vakantie is de opmaak..
+

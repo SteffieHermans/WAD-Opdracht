@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
-const EditForm = ({id, title, description, servings, ingredients, steps, notes, source, onClickEdit}) => {
+const EditForm = ({id, title, description, servings, ingredients, steps, notes, source, onClickEdit, addIngredient, addStep, history}) => {
     const data = {
         'title': title,
         'description': description,
@@ -10,6 +11,10 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
         'steps': steps,
         'notes': notes,
         'source': source
+    }
+
+    const redirect = id => {
+        history.push(`/recipe/${id}`);
     }
 
     const handleChangeInput = e => {
@@ -34,15 +39,22 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
 
     const handleClickEdit = (e, id) => {
         e.preventDefault();
-        const selector = '.' + id;
-        const recipeContainer = document.querySelector(selector);
-        const form = recipeContainer.querySelector('form');
-        form.classList.add('hide');
-        onClickEdit(id, data);
+        console.log(data);
+        onClickEdit(id, data, redirect);
+    }
+
+    const handleClickAddIngredient = e => {
+        e.preventDefault();
+        addIngredient(id);
+    }
+
+    const handleClickAddStep = e => {
+        e.preventDefault();
+        addStep(id);
     }
 
     return (
-        <form className="recipe-container-item hide">
+        <form className="recipe-container-item">
             <label>Titel
                 <input type="text" name="title" defaultValue={title} onChange={handleChangeInput} required/>
             </label><br/>
@@ -66,21 +78,26 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
                 </select></label>
             <label>Ingredienten
                 {ingredients.map((ingredient, index) => {
-                    return <input type="text" name="ingredient" key={index} defaultValue={ingredient} onChange={e => handleChangeInput(e)} required/>
+                    return <input type="text" id={"ingredient" + index} name="ingredient" key={index} defaultValue={ingredient} onChange={e => handleChangeInput(e)} required/>
                 })}
             </label><br/>
+            <button onClick={handleClickAddIngredient}>Extra Ingredient</button><br/>
             <label>Methode
                 {steps.map((step, index) => {
-                    return <textarea name="step" key={index} defaultValue={step} onChange={e => handleChangeInput(e)} required></textarea>
+                    return <textarea id={"step" + index} name="step" key={index} defaultValue={step} onChange={e => handleChangeInput(e)} required></textarea>
                 })}
             </label><br/>
+            <button onClick={handleClickAddStep}>Extra Stap</button><br/>
             <label>Opmerkingen
                 <textarea name="notes" defaultalue={notes} onChange={e => handleChangeInput(e)} required></textarea>
             </label><br/>
             <label>Bron
                 <input type="text" name="source" defaultValue={source} onChange={e => handleChangeInput(e)} required/>
             </label>
-            <button onClick={(e) => handleClickEdit(e, id)}>Verander Recept</button>
+            <section className="button-section">
+                <h3 className="hide">Button</h3>
+                <button className="inline-button" onClick={(e) => handleClickEdit(e, id)}>Verander Recept</button>
+            </section>
         </form>
     );
 }
@@ -94,7 +111,10 @@ EditForm.propTypes = {
     steps: PropTypes.array.isRequired,
     notes: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
-    onClickEdit: PropTypes.func.isRequired
+    onClickEdit: PropTypes.func.isRequired.apply,
+    addIngredient: PropTypes.func.isRequired.apply,
+    addStep: PropTypes.func.isRequired.apply,
+    history: PropTypes.object.isRequired
 }
 
-export default EditForm;
+export default withRouter(EditForm);

@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormInputListItem = ({value, name, onChange}) => {
+const FormInputListItem = ({count, onChange}) => {
 
   const handleChangeInput = e => {
-    const {value} = e.currentTarget
-    onChange(value);
+    onChange(e);
   }
 
   return(
-      <input id={name} type="text" name={name} onChange={handleChangeInput} value={value}/>
+      <input id={"ingredient" + (count - 1)} type="text" name="ingredient" onChange={handleChangeInput}/>
   );
 };
 
