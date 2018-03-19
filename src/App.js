@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Recipes from './Recipes.jsx';
 import AddRecipe from './AddRecipe.jsx';
-// import FormInput from './FormInput.jsx';
-// import FormTextArea from './FormTextArea.jsx';
-// import FormSelect from './FormSelect.jsx';
-// import FormInputList from './FormInputList.jsx';
-// import FormTextAreaList from './FormTextAreaList.jsx';
+import NotFound from './NotFound.jsx';
+import Overview from './Overview.jsx';
+import Recept from './Recept.jsx';
+import EditForm from './EditForm.jsx';
 import './App.css';
+
+import {Switch, Route, Link} from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -22,6 +22,10 @@ class App extends Component {
           notes: "Geen opmerkingen",
           source: "https://www.jamieoliver.com/recipes/chocolate-recipes/chocolate-orange-shortbread/"
         }
+      },
+      addRecipe: {
+        ingredients: [""],
+        steps: [""]
       }
     };
   }
@@ -42,37 +46,90 @@ class App extends Component {
     return id;
   }
 
-  handleAddRecipe = (recipe) => {
+  handleAddRecipe = (recipe, callback) => {
     console.log(recipe);
     const {recipes} = this.state;
     const updatedRecipes = {...recipes};
     const id = this.generateRandomId(8);
     updatedRecipes[id] = recipe;
-    this.setState({recipes: updatedRecipes});
+
+    const addRecipe = {...this.state.addRecipe};
+    addRecipe.ingredients = [""];
+    addRecipe.steps = [""];
+    this.setState({recipes: updatedRecipes, addRecipe }, () => callback(id));
   }
 
-  handleDelete = id => {
+  addIngredient = () => {
+    const addRecipe = {...this.state.addRecipe};
+    addRecipe.ingredients.push("");
+    console.log(addRecipe);
+    this.setState({addRecipe});
+  }
+
+  addStep = () => {
+    const addRecipe = {...this.state.addRecipe};
+    addRecipe.steps.push("");
+    console.log(addRecipe);
+    this.setState({addRecipe});
+  }
+
+  addIngredientToExistingRecipe = id => {
+    const recipes = {...this.state.recipes};
+    recipes[id].ingredients.push("");
+    this.setState({recipes});
+  }
+
+  addStepToExistingRecipe = id => {
+    const recipes = {...this.state.recipes};
+    recipes[id].steps.push("");
+    this.setState({recipes});
+  }
+
+  handleDelete = (id) => {
     const {recipes} = this.state;
     const updatedRecipes = {...recipes};
     delete updatedRecipes[id];
     this.setState({recipes: updatedRecipes});
   }
 
-  handleEdit = (id, recipe) => {
+  handleEdit = (id, recipe, callback) => {
     const {recipes} = this.state;
     const updatedRecipes = {...recipes};
     updatedRecipes[id] = recipe;
-    this.setState({recipes: updatedRecipes});
+    this.setState({recipes: updatedRecipes}, () => callback(id));
   }
 
   render() {
-    const {recipes} = this.state;
+    const {recipes, addRecipe} = this.state;
     return (
-      <div className="main-container">
-        <h1>Mijn Receptenboek</h1>
-        <Recipes recipes={recipes} onDelete={id => this.handleDelete(id)} onEdit={(id, recipe) => this.handleEdit(id, recipe)}/>
-        <AddRecipe onAdd={recipe => this.handleAddRecipe(recipe)} />
-      </div>
+      <main>
+        <h1><Link to='/'>Mijn Receptenboek</Link></h1>
+        <Switch>
+          <Route path='/' exact render={() => (
+            <Overview recipes={recipes} />
+          )}/>
+          <Route path='/recipe/edit/:id' render={({match})=>{
+            const id = match.params.id;
+            if(recipes[id]){
+              const {title, description, servings, ingredients, steps, notes, source} = recipes[id];
+              return <EditForm id={id} title={title} description={description} servings={servings} ingredients={ingredients} steps={steps} notes={notes} source={source} onClickEdit={this.handleEdit} addIngredient={this.addIngredientToExistingRecipe} addStep={this.addIngredientToExistingRecipe}/>;
+            }
+            return <Route component={NotFound}/>
+          }}/>
+          <Route path='/recipe/add' exact render={()=>{
+            return <AddRecipe toAdd={addRecipe} onAdd={this.handleAddRecipe} addIngredient={this.addIngredient} addStep={this.addStep}/>
+          }}/>
+          <Route path='/recipe/:id' render={({match})=>{
+            const id = match.params.id;
+            if(recipes[id]){
+              const {title, description, servings, ingredients, steps, notes, source} = recipes[id];
+              return <Recept id={id} title={title} description={description} servings={servings} ingredients={ingredients} steps={steps} notes={notes} source={source} onDelete={id => this.handleDelete(id)} />
+            }
+            return <Route component={NotFound}/>
+          }}/>
+          <Route component={NotFound}/>
+        </Switch>
+      </main>
     );
   }
 }
