@@ -81,13 +81,13 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
                     return <input type="text" id={"ingredient" + index} name="ingredient" key={index} defaultValue={ingredient} onChange={e => handleChangeInput(e)} required/>
                 })}
             </label><br/>
-            <button onClick={handleClickAddIngredient}>Extra Ingredient</button><br/>
+            <button className="inline-button-extra" onClick={handleClickAddIngredient}>Extra Ingredient</button><br/>
             <label>Methode
                 {steps.map((step, index) => {
                     return <textarea id={"step" + index} name="step" key={index} defaultValue={step} onChange={e => handleChangeInput(e)} required></textarea>
                 })}
             </label><br/>
-            <button onClick={handleClickAddStep}>Extra Stap</button><br/>
+            <button className="inline-button-extra" onClick={handleClickAddStep}>Extra Stap</button><br/>
             <label>Opmerkingen
                 <textarea name="notes" defaultalue={notes} onChange={e => handleChangeInput(e)} required></textarea>
             </label><br/>
@@ -111,9 +111,9 @@ EditForm.propTypes = {
     steps: PropTypes.array.isRequired,
     notes: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
-    onClickEdit: PropTypes.func.isRequired.apply,
-    addIngredient: PropTypes.func.isRequired.apply,
-    addStep: PropTypes.func.isRequired.apply,
+    onClickEdit: PropTypes.func.isRequired,
+    addIngredient: PropTypes.func.isRequired,
+    addStep: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
 }
 

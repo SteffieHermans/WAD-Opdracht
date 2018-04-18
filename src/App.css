@@ -98,6 +98,7 @@ label{
   color: #D19989;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  width: 50%;
 }
 
 .input-content {
@@ -109,6 +110,21 @@ label{
   border-bottom:.1rem solid white;
   outline: none;
   margin:  0 2rem;
+}
+
+input {
+  border: none;
+  border-bottom: .1rem solid #E2CDCC;
+  width: 50%;
+}
+
+textarea {
+  border: .1rem solid #E2CDCC;
+  width: 50%;
+}
+
+button {
+  margin-top: -1;
 }
 
 .button {
@@ -125,6 +141,11 @@ label{
   color: white;
   padding: 1rem 3rem;
   font-size: 1.6rem;
+}
+
+.button:hover {
+  background-color: #D19989;
+  cursor: pointer;
 }
 
 .button-section{
@@ -148,6 +169,11 @@ label{
   padding: 1rem 3rem;
   font-size: 1.6rem;
   margin-top: 2rem;
+}
+
+.inline-button:hover {
+  background-color: #D19989;
+  cursor: pointer;
 }
 
 .inline-button-extra{
