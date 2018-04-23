@@ -1,65 +1,86 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import Recipe from '../models/Recipe';
+import {observer} from 'mobx-react';
 
-const AddRecipe = ({toAdd, onAdd, addIngredient, addStep, history}) => {
+const AddRecipe = ({store, history}) => {
 
     const redirect = id => {
         history.push(`/recipe/${id}`);
     }
 
-    const data = {
-        'title': 'Geen Titel',
-        'description': 'Geen Beschrijving',
-        'servings': 0,
-        'ingredients': [],
-        'steps': [],
-        'notes': 'Geen Opmerkingen',
-        'source': 'Geen Bron'
+    const handleSubmitForm = e => {
+        e.preventDefault();
+
+        const form = e.currentTarget;
+        const data = store.data;
+        if(form.title.value){
+            const recipe = new Recipe(data.title, data.description, data.servings, data.pricePerServing, data.ingredients, data.steps, data.notes, data.source);
+            const id = store.addRecipe(recipe);
+            store.resetData();
+            if(id){
+                redirect(id);
+            }
+        }
     }
 
     const handleChangeInput = e => {
        const {value, name} = e.currentTarget;
-       if(name === 'ingredient'){
-           const {id} = e.currentTarget;
-           const index = id.slice(10);
-           data.ingredients[index] = value;
-           console.log(data);
-       } else if (name === 'step'){
-           const {id} = e.currentTarget;
-           const index = id.slice(4);
-           data.steps[index] = value;
-       } else if (name === 'servings'){
-           data[name] = parseInt(value, 10);
-       } else {
-            data[name] = value;
+       switch(name) {
+            case 'ingredient':
+                const ingredientId = e.currentTarget.id;
+                const ingredientIndex = ingredientId.slice(10);
+                store.data.changeIngredient(ingredientIndex, value);
+                break;
+            case 'step':
+                const {id} = e.currentTarget;
+                const index = id.slice(4);
+                store.data.changeStep(index, value);
+                break;
+            case 'servings':
+                store.data.changeServings(parseInt(value, 10));
+                break;
+            case 'pricePerServing':
+                store.data.changePricePerServing(parseInt(value, 10));
+                break;
+            case 'title':
+                store.data.changeTitle(value);
+                break;
+            case 'description':
+                store.data.changeDescription(value);
+                break;
+            case 'notes':
+                store.data.changeNotes(value);
+                break;
+            case 'source':
+                store.data.changeSource(value);
+                break;
+            default:
+                console.log("something went wrong");
        }
     }
 
-    const handleClickSubmit = e => {
-        e.preventDefault();
-        onAdd(data, redirect);
-    }
     const handleClickAddIngredient = e => {
         e.preventDefault();
-        addIngredient();
+        store.data.addIngredient();
     }
 
     const handleClickAddStep = e => {
         e.preventDefault();
-        addStep();
+        store.data.addStep();
     }
 
     const renderForm = () => {
         return (
-            <form className="addRecipe">
+            <form className="addRecipe" onSubmit={handleSubmitForm}>
                 <label htmlFor="title">Titel</label>
                 <input type="text" name="title" id="title" onChange={e => handleChangeInput(e)} required/>
                 <label htmlFor="description">Omschrijving</label>
                 <textarea name="description" id="description" onChange={e => handleChangeInput(e)} required></textarea>
                 <label htmlFor="servings">Servings</label>
                 <select id="servings" name="servings" onChange={e => handleChangeInput(e)} required>
-                    <option value="0">2</option>
+                    <option value="0">0</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
@@ -72,16 +93,18 @@ const AddRecipe = ({toAdd, onAdd, addIngredient, addStep, history}) => {
                     <option value="11">11</option>
                     <option value="12">12</option>
                 </select>
+                <label htmlFor="pricePerServing">Price Per Serving</label>
+                <input type="number" name="pricePerServing" id="pricePerServing" onChange={e => handleChangeInput(e)} defaultValue="0" step="0.5" required/>
                 <label htmlFor="ingredients">Ingredienten</label>
                 <ul id="ingredients" className="ingredients">
-                    {toAdd.ingredients.map((ingredient, index) => {
+                    {store.data.ingredients.map((ingredient, index) => {
                         return <li key={index}><input type="text" name="ingredient" id={"ingredient" + index} onChange={e => handleChangeInput(e)} required/></li>;
                     })}
                 </ul>
                 <button className="inline-button-extra" onClick={handleClickAddIngredient}>Extra Ingredient</button>
                 <label htmlFor="method">Methode</label>
                 <dl id="method" className="method">
-                    {toAdd.steps.map((step, index)=>{
+                    {store.data.steps.map((step, index)=>{
                         return(
                             <div key={"stap-wrapper" + index}>
                                 <dt>Stap {index + 1}</dt>
@@ -95,7 +118,7 @@ const AddRecipe = ({toAdd, onAdd, addIngredient, addStep, history}) => {
                 <textarea name="notes" id="notes" onChange={e => handleChangeInput(e)} required></textarea>
                 <label htmlFor="source">Bron</label>
                 <input type="text" name="source" id="source" onChange={e => handleChangeInput(e)} required/>
-                <input className="inline-button" type="submit" onClick={handleClickSubmit}/>
+                <input className="inline-button" type="submit"/>
             </form>
         );
     };
@@ -106,11 +129,8 @@ const AddRecipe = ({toAdd, onAdd, addIngredient, addStep, history}) => {
 };
 
 AddRecipe.propTypes = {
-    toAdd: PropTypes.object.isRequired,
-    onAdd: PropTypes.func.isRequired.apply,
-    addIngredient: PropTypes.func.isRequired.apply,
-    addStep: PropTypes.func.isRequired.apply,
+    store: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
 }
 
-export default withRouter(AddRecipe);
+export default withRouter(observer(AddRecipe));

@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import {observer} from 'mobx-react';
 
-const EditForm = ({id, title, description, servings, ingredients, steps, notes, source, onClickEdit, addIngredient, addStep, history}) => {
-    const data = {
-        'title': title,
-        'description': description,
-        'servings': servings,
-        'ingredients': ingredients,
-        'steps': steps,
-        'notes': notes,
-        'source': source
-    }
+const EditForm = ({store, id, history}) => {
+    const {title, description, servings, pricePerServing, ingredients, steps, notes, source} = store.recipes[id];
+    const recipe = store.recipes[id];
 
     const redirect = id => {
         history.push(`/recipe/${id}`);
@@ -19,38 +13,53 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
 
     const handleChangeInput = e => {
        const {value, name} = e.currentTarget;
-       console.log(value);
-       if(name === 'ingredient'){
-           const {id} = e.currentTarget;
-           const index = id.slice(10);
-           data.ingredients[index] = value;
-           console.log(data);
-       } else if (name === 'step'){
-           const {id} = e.currentTarget;
-           const index = id.slice(4);
-           data.steps[index] = value;
-       } else if (name === 'servings'){
-           data[name] = parseInt(value, 10);
-       } else {
-            data[name] = value;
-       }
-       console.log(data);
+       switch(name) {
+            case 'ingredient':
+                const ingredientId = e.currentTarget.id;
+                const ingredientIndex = ingredientId.slice(10);
+                recipe.changeIngredient(ingredientIndex, value);
+                break;
+            case 'step':
+                const {id} = e.currentTarget;
+                const index = id.slice(4);
+                recipe.changeStep(index, value);
+                break;
+            case 'servings':
+                recipe.changeServings(parseInt(value, 10));
+                break;
+            case 'pricePerServing':
+                recipe.changePricePerServing(parseInt(value, 10));
+                break;
+            case 'title':
+                recipe.changeTitle(value);
+                break;
+            case 'description':
+                recipe.changeDescription(value);
+                break;
+            case 'notes':
+                recipe.changeNotes(value);
+                break;
+            case 'source':
+                recipe.changeSource(value);
+                break;
+            default:
+                console.log("something went wrong");
+        }
     }
 
     const handleClickEdit = (e, id) => {
         e.preventDefault();
-        console.log(data);
-        onClickEdit(id, data, redirect);
+        redirect(id);
     }
 
     const handleClickAddIngredient = e => {
         e.preventDefault();
-        addIngredient(id);
+        recipe.addIngredient();
     }
 
     const handleClickAddStep = e => {
         e.preventDefault();
-        addStep(id);
+        recipe.addStep();
     }
 
     return (
@@ -76,6 +85,9 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
                     <option value="11">11</option>
                     <option value="12">12</option>
                 </select></label>
+            <label>Price per Serving
+            <input type="number" name="pricePerServing" id="pricePerServing" onChange={e => handleChangeInput(e)} defaultValue={pricePerServing} step="0.5" required/>
+            </label><br/>
             <label>Ingredienten
                 {ingredients.map((ingredient, index) => {
                     return <input type="text" id={"ingredient" + index} name="ingredient" key={index} defaultValue={ingredient} onChange={e => handleChangeInput(e)} required/>
@@ -89,7 +101,7 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
             </label><br/>
             <button className="inline-button-extra" onClick={handleClickAddStep}>Extra Stap</button><br/>
             <label>Opmerkingen
-                <textarea name="notes" defaultalue={notes} onChange={e => handleChangeInput(e)} required></textarea>
+                <textarea name="notes" defaultValue={notes} onChange={e => handleChangeInput(e)} required></textarea>
             </label><br/>
             <label>Bron
                 <input type="text" name="source" defaultValue={source} onChange={e => handleChangeInput(e)} required/>
@@ -103,18 +115,9 @@ const EditForm = ({id, title, description, servings, ingredients, steps, notes, 
 }
 
 EditForm.propTypes = {
+    store: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    servings: PropTypes.number.isRequired,
-    ingredients: PropTypes.array.isRequired,
-    steps: PropTypes.array.isRequired,
-    notes: PropTypes.string.isRequired,
-    source: PropTypes.string.isRequired,
-    onClickEdit: PropTypes.func.isRequired,
-    addIngredient: PropTypes.func.isRequired,
-    addStep: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
 }
 
-export default withRouter(EditForm);
+export default withRouter(observer(EditForm));
