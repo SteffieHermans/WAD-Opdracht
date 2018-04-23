@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-const Recept = ({id, title, description, servings, ingredients, steps, notes, source, onDelete}) => {
+const Recept = ({store, id}) => {
+    const {title, description, servings, pricePerServing, ingredients, steps, notes, source, total} = store.recipes[id];
 
     const handleClickDelete = id => {
-        onDelete(id);
+        store.deleteRecipe(id);
     }
 
     return (
@@ -18,6 +19,14 @@ const Recept = ({id, title, description, servings, ingredients, steps, notes, so
             <section>
                 <h3>Aantal Personen</h3>
                 <p>{servings}</p>
+            </section>
+            <section>
+                <h3>Prijs per Persoon</h3>
+                <p>{pricePerServing}</p>
+            </section>
+            <section>
+                <h3>Totale Prijs</h3>
+                <p>{total}</p>
             </section>
             <section>
                 <h3>Ingredienten</h3>
@@ -54,15 +63,8 @@ const Recept = ({id, title, description, servings, ingredients, steps, notes, so
 }
 
 Recept.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    servings: PropTypes.number.isRequired,
-    ingredients: PropTypes.array.isRequired,
-    steps: PropTypes.array.isRequired,
-    notes: PropTypes.string.isRequired,
-    source: PropTypes.string.isRequired,
-    onDelete: PropTypes.func.isRequired
+    store: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired
 }
 
 export default Recept;
