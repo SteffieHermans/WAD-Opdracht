@@ -5,8 +5,9 @@ import Overview from '../components/Overview.jsx';
 import Recept from '../components/Recept.jsx';
 import EditForm from '../components/EditForm.jsx';
 import '../css/App.css';
+import {observer, Observer} from 'mobx-react';
 
-import {Switch, Route, Link} from 'react-router-dom';
+import {Switch, Route, Link, withRouter} from 'react-router-dom';
 
 class App extends Component {
   render() {
@@ -16,7 +17,9 @@ class App extends Component {
         <h1><Link to='/'>Mijn Receptenboek</Link></h1>
         <Switch>
           <Route path='/' exact render={() => (
-            <Overview recipes={store.recipes} />
+            <Observer>
+              {() => <Overview recipes={store.recipes} />}
+            </Observer>
           )}/>
           <Route path='/recipe/edit/:id' render={({match})=>{
             const id = match.params.id;
@@ -42,4 +45,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(observer(App));
