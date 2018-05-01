@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Recipe from '../models/Recipe';
 import {observer} from 'mobx-react';
 
 const AddRecipe = ({store, history}) => {
 
-    const redirect = id => {
-        history.push(`/recipe/${id}`);
+    const redirect = () => {
+        history.push(`/recipes`);
     }
 
     const handleSubmitForm = e => {
@@ -16,12 +15,9 @@ const AddRecipe = ({store, history}) => {
         const form = e.currentTarget;
         const data = store.data;
         if(form.title.value){
-            const recipe = new Recipe(data.title, data.description, data.servings, data.pricePerServing, data.ingredients, data.steps, data.notes, data.source);
-            const id = store.addRecipe(recipe);
+            store.add(data);
             store.resetData();
-            if(id){
-                redirect(id);
-            }
+            redirect();
         }
     }
 
@@ -42,7 +38,7 @@ const AddRecipe = ({store, history}) => {
                 store.data.changeServings(parseInt(value, 10));
                 break;
             case 'pricePerServing':
-                store.data.changePricePerServing(parseInt(value, 10));
+                store.data.changePricePerServing(parseFloat(value, 10));
                 break;
             case 'title':
                 store.data.changeTitle(value);

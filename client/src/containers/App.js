@@ -5,32 +5,36 @@ import Overview from '../components/Overview.jsx';
 import Recept from '../components/Recept.jsx';
 import EditForm from '../components/EditForm.jsx';
 import '../css/App.css';
+import {observer, Observer} from 'mobx-react';
 
-import {Switch, Route, Link} from 'react-router-dom';
+import {Switch, Route, Link, withRouter} from 'react-router-dom';
 
 class App extends Component {
+
   render() {
     const {store} = this.props;
     return (
       <main>
-        <h1><Link to='/'>Mijn Receptenboek</Link></h1>
+        <h1><Link to='/recipes'>Mijn Receptenboek</Link></h1>
         <Switch>
-          <Route path='/' exact render={() => (
-            <Overview recipes={store.recipes} />
+          <Route path='/recipes' exact render={() => (
+            <Observer>
+              {() => <Overview recipes={store.recipes} />}
+            </Observer>
           )}/>
-          <Route path='/recipe/edit/:id' render={({match})=>{
+          <Route path='/recipes/edit/:id' render={({match})=>{
             const id = match.params.id;
-            if(store.recipes[id]){
+            if(store.findRecipe(id)){
               return <EditForm store={store} id={id}/>;
             }
             return <Route component={NotFound}/>
           }}/>
-          <Route path='/recipe/add' exact render={()=>{
+          <Route path='/recipes/add' exact render={()=>{
             return <AddRecipe store={store}/>
           }}/>
-          <Route path='/recipe/:id' render={({match})=>{
+          <Route path='/recipes/:id' render={({match})=>{
             const id = match.params.id;
-            if(store.recipes[id]){
+            if(store.findRecipe(id)){
               return <Recept store={store} id={id} />
             }
             return <Route component={NotFound}/>
@@ -42,4 +46,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(observer(App));

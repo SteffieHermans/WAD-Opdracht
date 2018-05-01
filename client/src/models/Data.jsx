@@ -1,19 +1,15 @@
-import {decorate, observable, action, computed} from "mobx";
+import {decorate, observable, action} from "mobx";
 
-class Recipe {
-  constructor(title = "Geen Titel", description = "Geen Beschrijving", servings = 0, pricePerServing = 0, ingredients = [], steps = [], notes = "Geen Opmerkingen", source = "Geen Bron") {
-    this.title = title;
-    this.description = description;
-    this.servings = servings;
-    this.pricePerServing = pricePerServing;
-    this.ingredients = ingredients;
-    this.steps = steps;
-    this.notes = notes;
-    this.source = source;
-  }
-
-  get total() {
-    return this.servings * this.pricePerServing;
+class Data {
+  constructor() {
+    this.title = "Geen Titel";
+    this.description = "Geen Beschrijving";
+    this.servings = 0;
+    this.pricePerServing = 0.0;
+    this.ingredients = [""];
+    this.steps = [""];
+    this.notes = "Geen Opmerkingen";
+    this.source = "Geen Bron";
   }
 
   changeTitle = value => {
@@ -55,15 +51,9 @@ class Recipe {
   addStep = () => {
     this.steps.push("");
   }
-
-  deleteIngredient = index => {
-    console.log(index);
-    const removed = this.ingredients.splice(index, 1);
-    console.log(removed);
-  }
 }
 
-decorate(Recipe, {
+decorate(Data, {
   title: observable,
   description: observable,
   servings: observable,
@@ -72,7 +62,6 @@ decorate(Recipe, {
   steps: observable,
   notes: observable,
   source: observable,
-  total: computed,
   changeTitle: action,
   changeDescription: action,
   changeServings: action,
@@ -82,7 +71,7 @@ decorate(Recipe, {
   changeNotes: action,
   changeSource: action,
   addIngredient: action,
-  addStep: action
+  addStep: action,
 });
 
-export default Recipe;
+export default Data;
