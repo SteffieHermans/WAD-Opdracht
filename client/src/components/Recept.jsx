@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
-const Recept = ({store, id}) => {
-    const {title, description, servings, pricePerServing, ingredients, steps, notes, source, total} = store.recipes[id];
+const Recept = ({store, id, history}) => {
+    const {title, description, servings, pricePerServing, ingredients, steps, notes, source, total} = store.findRecipe(id);
 
-    const handleClickDelete = id => {
-        store.deleteRecipe(id);
+    const redirect = () => {
+        history.push(`/recipes`);
+    }
+
+    const handleClickDelete = (e, id) => {
+        e.preventDefault();
+        const recipe = store.findRecipe(id);
+        if(store.remove(recipe)){
+            redirect();
+        };
+        //redirect to home screen
     }
 
     return (
@@ -54,8 +63,8 @@ const Recept = ({store, id}) => {
             </section>
             <section className="button-section">
                 <h3 className="hide">Buttons</h3>
-                <Link className="button-link" to={`/recipe/edit/${id}`}><button className="inline-button">Edit</button></Link>
-                <Link className="button-link" to='/'><button className="inline-button" onClick={() => handleClickDelete(id)}>Delete</button></Link>
+                <Link className="button-link" to={`/recipes/edit/${id}`}><button className="inline-button">Edit</button></Link>
+                <Link className="button-link" to='/'><button className="inline-button" onClick={e => handleClickDelete(e, id)}>Delete</button></Link>
             </section>
         </article>
         
@@ -67,4 +76,4 @@ Recept.propTypes = {
     id: PropTypes.string.isRequired
 }
 
-export default Recept;
+export default withRouter(Recept);

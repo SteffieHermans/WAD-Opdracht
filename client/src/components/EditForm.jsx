@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 import {observer} from 'mobx-react';
 
 const EditForm = ({store, id, history}) => {
-    const {title, description, servings, pricePerServing, ingredients, steps, notes, source} = store.recipes[id];
-    const recipe = store.recipes[id];
+    const {title, description, servings, pricePerServing, ingredients, steps, notes, source} = store.findRecipe(id);
+    const recipe = store.findRecipe(id);
 
     const redirect = id => {
-        history.push(`/recipe/${id}`);
+        history.push(`/recipes/${id}`);
     }
 
     const handleChangeInput = e => {
@@ -49,6 +49,7 @@ const EditForm = ({store, id, history}) => {
 
     const handleClickEdit = (e, id) => {
         e.preventDefault();
+        store.update(recipe);
         redirect(id);
     }
 

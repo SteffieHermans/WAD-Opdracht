@@ -17,3 +17,10 @@ Alles is goed gegaan denk ik, ik kan nu ook extra ingredienten en stappen toevoe
 
 ## Week 5 (week 1 na de vakantie)
 Ik was bijna vergeten om een computed variable te gebruiken, maar dat heb ik er toch nog in kunnen stoppen. Verder werkt alles denk ik zoals het hoort. Ik vraag me van 'data' nog wel af of deze in de store thuishoort, maar de app werkte niet zoals het moest toen dit element nog niet in de store stond, dus vandaar dat hij daar staat. Ik heb geprobeert om deze week een delete knop toe te voegen aan de ingredients en steps op de pagina's waar je een recept aanmaakt of edit, dit is deels gelukt alleen werd het recept in de store wel het goede ingredient eruit gehaald, maar op de edit pagina werd steeds de laatste input weggehaald. Kortom als ik uit het rijtje 'zwaan, gans, merel' de gans wilde deleten, zag ik op de edit pagina staan 'zwaan, gans' terwijl in de store er wel degelijk alleen nog 'zwaan, merel' bij de ingredienten stond. Ik ga vandeweek nog eens kijken naar de oplossing van de oefening uit de les vorige week om te zien of ik die oplossing hier eventueel kan toepassen.
+
+## Week 6
+De server opzetten en gebruiken is gelukt volgens mij, tevens is als het goed is nu ook het renderen van de pagina bij updaten van de store (recipes) opgelost (ook zonder naar een nieuwe pagina te gaan).
+
+Ik heb de addRecipe pagina nu terug laten gaan naar het overzicht, omdat hij, doordat er met een asynchone promise wordt gewerkt in de add functie, op dit moment de vorige id (returnId) meekrijgt in plaats van de id van het net toegevoegde recept.
+
+Verder moest ik om alles werkend te krijgen met de server het overzicht op "localhost:3000/recipes" in plaats van "localhost:3000/" zetten, dus als je nu yarn start uitvoert kom je op de 'er is iets misgegaan' pagina.
