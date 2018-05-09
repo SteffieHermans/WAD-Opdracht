@@ -9,8 +9,8 @@ const Overview = ({ recipes }) => {
     <ul className="recipe-list">
       {
         recipes.map(recipe => (
-          <li className="Recipe" key={recipe.id}>
-            <Link to={`/recipes/${recipe.id}`} className="recipe-link">
+          <li className="Recipe" key={recipe._id}>
+            <Link to={`/recipes/${recipe._id}`} className="recipe-link">
             {recipe.title} (Serves: {recipe.servings})
             </Link>
           </li>
@@ -24,7 +24,7 @@ const Overview = ({ recipes }) => {
 }
 
 Overview.propTypes = {
-  recipes: PropTypes.object.isRequired
+  recipes: PropTypes.array.isRequired
 }
 
 export default observer(Overview);

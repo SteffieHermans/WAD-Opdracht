@@ -6,7 +6,6 @@ class Recipe {
     this.title = title;
     this.description = description;
     this.servings = servings;
-    this.pricePerServing = pricePerServing;
     this.ingredients = ingredients;
     this.steps = steps;
     this.notes = notes;
@@ -27,10 +26,6 @@ class Recipe {
 
   changeServings = value => {
     this.servings = value;
-  }
-
-  changePricePerServing = value => {
-    this.pricePerServing = value;
   }
 
   changeIngredient = (index, value) => {
@@ -62,7 +57,6 @@ decorate(Recipe, {
   title: observable,
   description: observable,
   servings: observable,
-  pricePerServing: observable,
   ingredients: observable,
   steps: observable,
   notes: observable,
@@ -71,7 +65,6 @@ decorate(Recipe, {
   changeTitle: action,
   changeDescription: action,
   changeServings: action,
-  changePricePerServing: action,
   changeIngredient: action,
   changeStep: action,
   changeNotes: action,

@@ -24,3 +24,12 @@ De server opzetten en gebruiken is gelukt volgens mij, tevens is als het goed is
 Ik heb de addRecipe pagina nu terug laten gaan naar het overzicht, omdat hij, doordat er met een asynchone promise wordt gewerkt in de add functie, op dit moment de vorige id (returnId) meekrijgt in plaats van de id van het net toegevoegde recept.
 
 Verder moest ik om alles werkend te krijgen met de server het overzicht op "localhost:3000/recipes" in plaats van "localhost:3000/" zetten, dus als je nu yarn start uitvoert kom je op de 'er is iets misgegaan' pagina.
+
+## Week 7
+Op zich is het implementeren van Grahpql en Apollo Server aardig gelukt,alleen omdat ik update en delete nog steeds op de oude manier wordt het overzicht niet geupdate zoals hij dat wel doet als ik een recept toevoeg.
+
+Een ander probleem is dat ik nu weer geen extra ingredienten kan toevoegen bij het aanmaken van een recept.
+
+Ik heb helaas niet genoeg tijd gehad deze week om deze dingen uit te zoeken. Ook had ik graag alles (ook update en delete) met Graphql gedaan, alleen kwam ik in de problemen met het combineren van een query en een mutation, waarvoor ik wederom niet de tijd had deze week om het rustig uit te zoeken, helaas.
+
+Ik zal vanmiddag ook een issue openen met de vragen die ik heb.
