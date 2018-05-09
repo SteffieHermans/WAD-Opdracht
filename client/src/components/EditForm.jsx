@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import {observer} from 'mobx-react';
 
 const EditForm = ({store, id, history}) => {
-    const {title, description, servings, pricePerServing, ingredients, steps, notes, source} = store.findRecipe(id);
+    const {title, description, servings, ingredients, steps, notes, source} = store.findRecipe(id);
     const recipe = store.findRecipe(id);
 
     const redirect = id => {
@@ -26,9 +26,6 @@ const EditForm = ({store, id, history}) => {
                 break;
             case 'servings':
                 recipe.changeServings(parseInt(value, 10));
-                break;
-            case 'pricePerServing':
-                recipe.changePricePerServing(parseInt(value, 10));
                 break;
             case 'title':
                 recipe.changeTitle(value);
@@ -86,9 +83,6 @@ const EditForm = ({store, id, history}) => {
                     <option value="11">11</option>
                     <option value="12">12</option>
                 </select></label>
-            <label>Price per Serving
-            <input type="number" name="pricePerServing" id="pricePerServing" onChange={e => handleChangeInput(e)} defaultValue={pricePerServing} step="0.5" required/>
-            </label><br/>
             <label>Ingredienten
                 {ingredients.map((ingredient, index) => {
                     return <input type="text" id={"ingredient" + index} name="ingredient" key={index} defaultValue={ingredient} onChange={e => handleChangeInput(e)} required/>

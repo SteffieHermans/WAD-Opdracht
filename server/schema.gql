@@ -1,0 +1,42 @@
+module.exports = `
+  type Recipe {
+    _id: String
+    title: String
+    description: String
+    servings: String
+    ingredients: [String]
+    steps: [String]
+    notes: String
+    source: String
+  }
+
+  type Query {
+    allRecipes: [Recipe]
+    recipe(_id:String!):Recipe
+  }
+
+  type Mutation {
+    addRecipe(
+        title: String!
+        description: String!
+        servings: String!
+        ingredients: [String]
+        steps: [String]
+        notes: String!
+        source: String!
+    ):Recipe
+    updateRecipe(
+      _id:String!
+      title: String!
+      description: String!
+      servings: String!
+      ingredients: [String]
+      steps: [String]
+      notes: String!
+      source: String!
+    ):Recipe
+    deleteRecipe(
+      _id:String!
+    ):Recipe
+  }
+`

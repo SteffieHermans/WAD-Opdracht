@@ -4,8 +4,7 @@ class Data {
   constructor() {
     this.title = "Geen Titel";
     this.description = "Geen Beschrijving";
-    this.servings = 0;
-    this.pricePerServing = 0.0;
+    this.servings = "0";
     this.ingredients = [""];
     this.steps = [""];
     this.notes = "Geen Opmerkingen";
@@ -22,10 +21,6 @@ class Data {
 
   changeServings = value => {
     this.servings = value;
-  }
-
-  changePricePerServing = value => {
-    this.pricePerServing = value;
   }
 
   changeIngredient = (index, value) => {
@@ -57,7 +52,6 @@ decorate(Data, {
   title: observable,
   description: observable,
   servings: observable,
-  pricePerServing: observable,
   ingredients: observable,
   steps: observable,
   notes: observable,
@@ -65,7 +59,6 @@ decorate(Data, {
   changeTitle: action,
   changeDescription: action,
   changeServings: action,
-  changePricePerServing: action,
   changeIngredient: action,
   changeStep: action,
   changeNotes: action,
