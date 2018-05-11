@@ -4,13 +4,14 @@ import NotFound from '../components/NotFound.jsx';
 import Overview from '../components/Overview.jsx';
 import Recept from '../components/Recept.jsx';
 import EditForm from '../components/EditForm.jsx';
+import User from '../components/User.jsx';
 import '../css/App.css';
 import {observer, Observer} from 'mobx-react';
 
 import {Switch, Route, Link, withRouter} from 'react-router-dom';
 import {Query} from "react-apollo";
 
-import GET_ALL_RECIPES from "../graphql/getAllRecipes"
+import GET_ALL_RECIPES from "../graphql/getAllRecipes";
 
 class App extends Component {
 
@@ -45,7 +46,7 @@ class App extends Component {
                 )}/>
                 <Route path='/recipes/:id' render={({match})=>{
                   const id = match.params.id;
-                  return <Recept store={store} id={id} />
+                  return <Recept store={store} id={id}/>
                 }}/>
                 <Route component={NotFound}/>
               </Switch>
@@ -53,7 +54,7 @@ class App extends Component {
           }
         }
         </Query>
-        
+        <User />
       </main>
     );
   }

@@ -8,11 +8,21 @@ module.exports = `
     steps: [String]
     notes: String
     source: String
+    user: User!
+  }
+
+  type User {
+     _id: String
+    name: String
+    email: String!
+    jwt: String
+    recipes: [Recipe] 
   }
 
   type Query {
     allRecipes: [Recipe]
     recipe(_id:String!):Recipe
+    allUsers: [User]
   }
 
   type Mutation {
@@ -38,5 +48,14 @@ module.exports = `
     deleteRecipe(
       _id:String!
     ):Recipe
+    register (
+      name: String!
+      email: String!
+      password: String!
+    ):User
+    login (
+      email: String!
+      password: String!
+    ):User
   }
 `

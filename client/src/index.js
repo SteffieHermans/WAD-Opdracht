@@ -9,9 +9,23 @@ import store from "./store";
 import ApolloClient from "apollo-boost";
 import {ApolloProvider} from "react-apollo";
 
+import { defaults, resolvers } from "./resolvers.js";
+
 const client = new ApolloClient({
-    uri: "http://localhost:5000/graphql"
-})
+    uri: "http://localhost:5000/graphql",
+    clientState: {
+        defaults,
+        resolvers
+      },
+    request: async operation => {
+        const token = localStorage.getItem("jwt");
+        operation.setContext({
+          headers: {
+            authorization: token ? `Bearer ${token}` : ""
+          }
+        });
+    }
+});
 
 ReactDOM.render(
     <ApolloProvider client={client}>

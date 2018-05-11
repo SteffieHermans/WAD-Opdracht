@@ -13,6 +13,7 @@ main {
   display: grid;
   height: 100vh;
   grid-template-rows: 6rem 1fr;
+  grid-template-columns: 1fr 35vw;
 }
 
 .hide {
@@ -36,6 +37,7 @@ h1{
   background-color: #FCE8E3;
   color: #D19989;
   padding: 2rem;
+  grid-column: 1 / span 2;
 }
 
 h2{
@@ -76,6 +78,7 @@ li + li{
 
 .recipes {
   display: grid;
+  grid-column: 1;
   grid-template-rows: 1fr minmax(8vh,5rem);
 }
 
@@ -233,4 +236,26 @@ label{
   display: block;
   margin: 2rem;
   text-decoration: underline;
+}
+
+.user {
+  grid-column: 2;
+  grid-row: 2;
+
+  background-color: #0277bd;
+
+  padding: 0 1rem;
+
+  color: white;
+}
+
+.userform {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.signedin {
+  margin: 1rem;
 }
