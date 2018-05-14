@@ -4,6 +4,7 @@ export default gql`
   {
     currentUser @client {
       name
+      id
     }
   }
 `;

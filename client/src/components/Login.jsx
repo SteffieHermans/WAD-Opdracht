@@ -51,7 +51,7 @@ class Login extends Component {
               required
               defaultValue="test"
             />
-            <input type="submit" value="Sign in" />
+            <input className="button" type="submit" value="Sign in" />
             <p>{this.state.errorMessage}</p>
           </form>
         )}

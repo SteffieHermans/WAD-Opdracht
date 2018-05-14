@@ -4,8 +4,6 @@ module.exports = `
     title: String
     description: String
     servings: String
-    ingredients: [String]
-    steps: [String]
     notes: String
     source: String
     user: User!
@@ -30,8 +28,6 @@ module.exports = `
         title: String!
         description: String!
         servings: String!
-        ingredients: [String]
-        steps: [String]
         notes: String!
         source: String!
     ):Recipe
@@ -40,8 +36,6 @@ module.exports = `
       title: String!
       description: String!
       servings: String!
-      ingredients: [String]
-      steps: [String]
       notes: String!
       source: String!
     ):Recipe

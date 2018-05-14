@@ -1,11 +1,11 @@
 //require de express en body-parser package
 const express = require("express");
 const bodyParser = require("body-parser");
-const dbConfig = require("./config/database.js");
+const {dburl} = require("./config/index.js");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.url)
+mongoose.connect(dburl)
     .then(() => console.log("Connected met DB"))
     .catch(err => {
         console.log("Ola, error", err);

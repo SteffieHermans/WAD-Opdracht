@@ -33,7 +33,7 @@ module.exports = {
   Mutation: {
     addRecipe(_, args, context) {
       return getAuthenticatedUser(context).then(user => {
-        args.user = user.id;
+        args.user = user._id;
         return new Recipe(args).save();
       });
     },
@@ -81,6 +81,11 @@ module.exports = {
         return Promise.reject("Already exists");
       });
     },
+  },
+  Recipe: {
+    user: recipe => {
+      return User.findById(recipe.user);
+    }
   },
   User: {
     recipes: user => {

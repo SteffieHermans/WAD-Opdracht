@@ -5,7 +5,7 @@ import { Route, Redirect } from "react-router-dom";
 import GET_RECIPE from "../graphql/getRecipe";
 import { Query } from "react-apollo";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => (
+const ExistingRecipeRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => (
@@ -25,4 +25,4 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-export default ProtectedRoute;
+export default ExistingRecipeRoute;

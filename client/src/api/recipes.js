@@ -1,5 +1,5 @@
 class Api {
-    url = `http://localhost:4000/recipes`;
+    url = `http://localhost:4000/`;
   
     getAll = () => {
       return fetch(`${this.url}`).then(r => r.json());

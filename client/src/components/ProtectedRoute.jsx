@@ -13,8 +13,10 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
         {({ loading, error, data, client }) => {
           if (loading) return null;
           if (error) return null;
+          console.log(props);
+          console.log(data.currentUser.id)
           return data.currentUser ? (
-            <Component {...props} />
+            props.match.params.id ? (<Component {...props} id={props.match.params.id} />) : (<Component {...props} />)
           ) : (
             <Redirect
               to={{

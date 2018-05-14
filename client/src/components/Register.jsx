@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import REGISTER from "../graphql/register";
+import REGISTER from "../graphql/register.js";
 import { Mutation } from "react-apollo";
 
 class Register extends Component {
@@ -35,7 +35,7 @@ class Register extends Component {
                 <input type="email" id="reg-email" name="email" required />
                 <label htmlFor="reg-pwd">Password</label>
                 <input type="password" id="reg-pwd" name="password" required />
-                <input type="submit" value="Register" />
+                <input className="button" type="submit" value="Register" />
               </form>
             )}
             </Mutation>) : (

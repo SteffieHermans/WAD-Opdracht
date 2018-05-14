@@ -28,7 +28,7 @@ class User extends Component {
             return(
               <div>
                 <p className="signedin">Signed in as {data.currentUser.name}</p>
-                <button onClick={() => this.handleSignOut(client)}> Sign out </button>
+                <button className="button" onClick={() => this.handleSignOut(client)}> Sign out </button>
               </div>
             )
           }

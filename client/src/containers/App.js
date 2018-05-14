@@ -12,14 +12,16 @@ import {Switch, Route, Link, withRouter} from 'react-router-dom';
 import {Query} from "react-apollo";
 
 import GET_ALL_RECIPES from "../graphql/getAllRecipes";
+import ProtectedRoute from '../components/ProtectedRoute';
+import ProtectedRouteByUserId from '../components/ProtectedRouteByUserId';
+import ExistingRecipeRoute from '../components/ExistingRecipeRoute';
 
 class App extends Component {
 
   render() {
-    const {store} = this.props;
     return (
       <main>
-        <h1><Link to='/'>Mijn Receptenboek</Link></h1>
+        <h1><Link to='/'>Mijn Receptenverzameling</Link></h1>
         <Query query={GET_ALL_RECIPES}>
         {
           ({loading, error, data: {allRecipes}}) => {
@@ -32,22 +34,17 @@ class App extends Component {
                     {() => <Overview recipes={allRecipes} />}
                   </Observer>
                 )}/>
-                <Route path='/recipes/edit/:id' render={({match})=>{
+                <ProtectedRouteByUserId path="/recipes/edit/:id" component={EditForm}/>
+                {/* <Route path='/recipes/edit/:id' render={({match})=>{
                   const id = match.params.id;
-                  if(store.findRecipe(id)){
-                    return <EditForm store={store} id={id}/>;
-                  }
-                  return <Route component={NotFound}/>
-                }}/>
-                <Route path='/recipes/add' exact render={()=>(
-                  <Observer>
-                    {() => <AddRecipe store={store}/>}
-                  </Observer>
-                )}/>
-                <Route path='/recipes/:id' render={({match})=>{
+                  return <EditForm id={id}/>;
+                }}/> */}
+                <ProtectedRoute path="/recipes/add" component={AddRecipe}/>
+                <ExistingRecipeRoute path="/recipes/:id" component={Recept}/>
+                {/* <Route path='/recipes/:id' render={({match})=>{
                   const id = match.params.id;
-                  return <Recept store={store} id={id}/>
-                }}/>
+                  return <Recept id={id}/>
+                }}/> */}
                 <Route component={NotFound}/>
               </Switch>
             )

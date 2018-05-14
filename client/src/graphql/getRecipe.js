@@ -7,10 +7,12 @@ export default gql`
             title
             description
             servings
-            ingredients
-            steps
             notes
             source
+            user{
+                name
+                _id
+            }
         }
     }
 `;

@@ -18,10 +18,9 @@ const RecipeSchema = mongoose.Schema({
     title: String,
     description: String,
     servings: String,
-    ingredients: [String],
-    steps: [String],
     notes: String,
-    source: String
+    source: String,
+    user: String
 });
 
 const UserSchema = mongoose.Schema({

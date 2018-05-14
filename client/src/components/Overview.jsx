@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {observer} from 'mobx-react';
+import ProtectedComponent from './ProtectedComponent';
 
 const Overview = ({ recipes }) => {
 
@@ -17,9 +18,12 @@ const Overview = ({ recipes }) => {
         ))
       }
     </ul>
-    <nav>
-      <Link className="button" to="/recipes/add">New Recipe</Link>
-    </nav>
+    <ProtectedComponent protect={
+      <nav>
+        <Link className="button" to="/recipes/add">New Recipe</Link>
+      </nav>
+    } alternative={<nav><p className="signedin">Please sign in to add a recipe!</p></nav>}/>
+    
   </section>
 }
 
