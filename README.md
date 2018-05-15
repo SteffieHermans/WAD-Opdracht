@@ -33,3 +33,8 @@ Een ander probleem is dat ik nu weer geen extra ingredienten kan toevoegen bij h
 Ik heb helaas niet genoeg tijd gehad deze week om deze dingen uit te zoeken. Ook had ik graag alles (ook update en delete) met Graphql gedaan, alleen kwam ik in de problemen met het combineren van een query en een mutation, waarvoor ik wederom niet de tijd had deze week om het rustig uit te zoeken, helaas.
 
 Ik zal vanmiddag ook een issue openen met de vragen die ik heb.
+
+## Week 8
+Ik heb de ingredienten en stappen uit het recept gehaald, zodat ik alles om kon zetten naar graphql. Dit maakt de app wel meer een recept referentieboek dan een receptenboek. Ik heb nog niet echt duidelijk voor ogen hoe je REST en graphql goed kunt laten samenwerken, maar dat is misschien een leuke oefening voor de zomervakantie.
+
+Ik had in eerste instantie uitgewerkt dat je een recept alleen kan aanpassen als jij degene bent die hem heeft toegevoegd (zie de op een na laatste versie op github), alleen omdat ik uit getCurrentUser 'id' weg moest halen om het inloggen/uitloggen goed te laten werken, kan ik deze check niet meer maken. Checken op naam lijkt me niet zo'n goed idee, aangezien twee users dezelfde naam zouden kunnen hebben. Dus ik denk dat ik het nu zo ga programmeren dat je alleen als je ingelogd bent een recept kunt updaten/deleten en dat het niet uitmaakt (voor nu) wie je bent.

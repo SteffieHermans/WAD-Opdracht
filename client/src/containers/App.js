@@ -34,7 +34,7 @@ class App extends Component {
                     {() => <Overview recipes={allRecipes} />}
                   </Observer>
                 )}/>
-                <ProtectedRouteByUserId path="/recipes/edit/:id" component={EditForm}/>
+                <ProtectedRoute path="/recipes/edit/:id" component={EditForm}/>
                 {/* <Route path='/recipes/edit/:id' render={({match})=>{
                   const id = match.params.id;
                   return <EditForm id={id}/>;

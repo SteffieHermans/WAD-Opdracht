@@ -5,7 +5,7 @@ import {Query, Mutation} from "react-apollo";
 import GET_RECIPE from "../graphql/getRecipe";
 import DELETE_RECIPE from "../graphql/deleteRecipe";
 import GET_ALL_RECIPES from "../graphql/getAllRecipes";
-import ProtectedComponentByUserId from "./ProtectedComponentByUserId";
+import ProtectedComponent from "./ProtectedComponent";
 
 const Recept = ({id, history}) => {
 
@@ -55,13 +55,13 @@ const Recept = ({id, history}) => {
                             </section>
                             <section className="button-section">
                                 <h3 className="hide">Buttons</h3>
-                                <ProtectedComponentByUserId protect={
+                                <ProtectedComponent protect={
                                     <Link className="button-link" to={`/recipes/edit/${recipe._id}`}><button className="inline-button">Edit</button></Link>
-                                    } alternative={<p>Only the user that created this recipe entry can update or delete it.</p>} recipeId={id}
+                                    } alternative={<p>Please login to edit or delete recipe.</p>}
                                 />
-                                <ProtectedComponentByUserId protect={
+                                <ProtectedComponent protect={
                                     <Link className="button-link" to='/'><button className="inline-button" onClick={e => handleClickDelete(e, deleteRecipe)}>Delete</button></Link>
-                                    } recipeId={id}
+                                    }
                                 />
                                 
                                 
